@@ -84,7 +84,7 @@ Example: [{'id': 1, 'port': 80, 'action': 'ALLOW'}, ...]
 
 🔍 2. Security Analysis (modules/analyzer.py)
 
-Task: Receive the list from MauRys and scan for risks.
+Task: Receive the list from reader and scan for risks.
 
 Function: def analyze_rules(rules_list):
 
@@ -116,7 +116,7 @@ A file upload button.
 
 A table or dashboard to display the JSON results returned by the backend.
 
-## 🎨 UI/UX Design Requirements (Bel, Gab, Neil)
+## 🎨 UI/UX Design Requirement
 
 ### 1. The Main Dashboard
 
