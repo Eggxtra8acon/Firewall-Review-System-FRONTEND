@@ -45,6 +45,8 @@ If you get an error saying "Running scripts is disabled on this system" when try
 
 4. Try activating the venv again.
 
+---
+
 ## 🔄 System Flow
 
 1. User uploads a firewall CSV file or inputs firewall rule into a premade input table
@@ -52,6 +54,11 @@ If you get an error saying "Running scripts is disabled on this system" when try
 3. `analyzer.py` scans for security risks
 4. `reporter.py` generates a summary
 5. Results are displayed in the UI dashboard
+
+## 🧪 Testing
+Use the included `firewall-rules.csv` as your baseline for development. 
+- **Reader Team:** Ensure your output matches the `id` and `port` data types.
+- **Analyzer Team:** Your logic must catch the "Any-Any" rules in IDs #2 and #4.
 
 ## 📥 Sample Input & Output
 
@@ -67,6 +74,23 @@ id,source,destination,port,action
 "high_severity": 1,
 "status": "DANGER"
 }
+
+---
+
+## 📁 Project Structure
+```text
+firewall-review-system/
+├── modules/              # Backend Logic
+│   ├── reader.py         # CSV Parsing
+│   ├── analyzer.py       # Security Logic
+│   └── reporter.py       # Report Generation
+├── static/               # CSS, Images, JS
+├── templates/            # HTML Files (index.html)
+├── venv/                 # Virtual Environment
+├── app.py                # Main Flask Application
+├── firewall-rules.csv    # Baseline Test Data
+├── requirements.txt      # List of dependencies
+└── README.md             # Project Documentation
 
 ## 🧩 Module Development Guide (Team Tasks)
 
@@ -130,3 +154,10 @@ A table or dashboard to display the JSON results returned by the backend.
 - **PDF Export:** A button to download the finalized security audit.
 
 Any ideas kasi wala ako masyadong clue pagdating sa UI/UX :)
+
+## 🤝 How to Contribute
+1. **Pull the latest changes:** `git pull origin main`
+2. **Create a branch:** `git checkout -b feature-yourname`
+3. **Commit your work:** `git commit -m "Brief description of work"`
+4. **Push your branch:** `git push origin feature-yourname`
+5. **Open a Pull Request (PR)** on GitHub for Jan to review and merge.
