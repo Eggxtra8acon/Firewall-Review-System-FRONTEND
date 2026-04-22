@@ -1,0 +1,78 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firewall Reviews</title>
+    <!-- Remember to change references -->
+    <link rel="stylesheet" href="E:\Git\maindirectory\firewall-review-system\static\style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Firewall<span>Reviews</span></div>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Upload</a></li>
+                <li><a href="#">Compliance</a></li>
+                <li><a href="#">Report</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="card chart-card">
+            <h3>Sample Text</h3>
+            <canvas id="performanceChart"></canvas>
+    </div>
+
+    <main class="reviews-container">
+        <h2>Summary</h2>
+        <div class="review-grid">
+            <!-- Review Card 1 -->
+            <article class="card">
+                <div class="rating">9.2/10</div>
+                <h3>Policy Compliance</h3>
+                <p>Measures firewall standards followed.</p>
+                <a href="#" class="read-more">Details</a>
+            </article>
+            
+            <!-- Review Card 2 -->
+            <article class="card">
+                <div class="rating">6.7/10</div>
+                <h3>Risk Assessment</h3>
+                <p>Medium Risk - Needs Improvement</p>
+                <a href="#" class="read-more">Details</a>
+            </article>
+        </div>
+    </main>
+    
+    <script>
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Palo Alto PA-Series', 'pfSense Plus', 'FortiGate 60F', 'Cisco Firepower'],
+                datasets: [{
+                    label: 'Measure',
+                    data: [20, 15, 18, 12],
+                    backgroundColor: '#38bdf8',
+                    borderColor: '#0f172a',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: {
+                    legend: { labels: { color: '#f8fafc' } }
+                },
+                scales: {
+                    y: { beginAtZero: true },
+                    x: { grid: { color: '#334155' } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
