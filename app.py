@@ -1,9 +1,9 @@
 from flask import Flask, render_template, render_template, request, jsonify
 app = Flask(__name__)
 
-@app.route('/dashboard') #uses index.html as the dashboard page
-def home():
-    return render_template('index.html')
+@app.route('/dashboard') 
+def dashboard():
+    return render_template('dashboard.html')
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():

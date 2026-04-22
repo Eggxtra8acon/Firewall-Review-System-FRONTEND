@@ -1,11 +1,17 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <title>Firewall Reviews System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% include 'navbar.html' %}
 
-
-{% block title %}Dashboard{% endblock %}
-
-{% block content %}
-    <div class="card">
-        <h1>Dashboard</h1>
-        <p>Welcome to the main system view.</p>
-    </div>
-{% endblock %}
+    <main class="content-area">
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>
