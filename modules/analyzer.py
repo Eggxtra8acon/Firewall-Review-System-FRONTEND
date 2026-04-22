@@ -32,3 +32,38 @@ def check_open_ports(rules):
 
     return port_findings
 
+
+
+def check_overly_permissive(rules):
+    """
+    Flags rules that are too broad, such as 'Any-to-Any' access.
+    """
+    permissive_findings = []
+
+    for rule in rules:
+        action = rule.get("action", "")
+        src = rule.get("src_ip", "").lower()
+        dst = rule.get("dst_ip", "").lower()
+        rule_id = rule.get("order") or "Unknown"
+
+        if action in ["ALLOW", "ACCEPT"]:
+            # 1. Critical Risk: Any source to Any destination
+            if src == "any" and dst == "any":
+                permissive_findings.append({
+                    "rule_id": rule_id,
+                    "severity": "High",
+                    "issue": "Overly Permissive Rule",
+                    "message": "Critical: Traffic is allowed from ANY source to ANY destination."
+                })
+            
+            # 2. Medium Risk: Any source to a specific destination (External exposure)
+            elif src == "any":
+                permissive_findings.append({
+                    "rule_id": rule_id,
+                    "severity": "Medium",
+                    "issue": "Wide Source Exposure",
+                    "message": "The source is set to 'any', allowing public access to this destination."
+                })
+
+    return permissive_findings
+
