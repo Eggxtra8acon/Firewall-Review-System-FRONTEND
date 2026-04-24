@@ -1,7 +1,7 @@
 from flask import Flask, render_template, render_template, request, jsonify
 app = Flask(__name__)
 
-@app.route('/dashboard') 
+@app.route('/') 
 def dashboard():
     return render_template('dashboard.html')
 
