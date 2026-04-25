@@ -1,4 +1,4 @@
-from flask import Flask, render_template, render_template, request, jsonify, session
+from flask import Flask, render_template, render_template, request, jsonify, session, redirect
 import csv
 import io
 import sys
@@ -13,7 +13,8 @@ app.secret_key = 'firewall-review-secret-key'
 def dashboard():
     csv_data = session.get('csv_data', [])
     report = session.get('report', None)
-    return render_template('dashboard.html', csv_data=csv_data, report=report)
+    filename = session.get('filename', None)
+    return render_template('dashboard.html', csv_data=csv_data, report=report, filename=filename)
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
@@ -66,6 +67,18 @@ def upload():
         session['csv_data'] = csv_data
         session['filename'] = file.filename
         session['report'] = report
+        
+        # Save to history
+        history = session.get('history', [])
+        history_entry = {
+            'filename': file.filename,
+            'report': report,
+            'csv_data': csv_data
+        }
+        # Avoid duplicates - remove if exists, then add to front
+        history = [h for h in history if h.get('filename') != file.filename]
+        history.insert(0, history_entry)
+        session['history'] = history[:10]  # Keep last 10 files
 
         return jsonify({
             "status": "success",
@@ -78,7 +91,18 @@ def upload():
 
 @app.route('/reports')
 def reports():
-    return render_template('reports.html')
+    history = session.get('history', [])
+    return render_template('reports.html', history=history)
+
+@app.route('/select/<int:index>')
+def select_history(index):
+    history = session.get('history', [])
+    if 0 <= index < len(history):
+        entry = history[index]
+        session['csv_data'] = entry.get('csv_data', [])
+        session['report'] = entry.get('report', None)
+        session['filename'] = entry.get('filename', None)
+    return redirect('/')
 
 @app.route('/credits')
 def credits():

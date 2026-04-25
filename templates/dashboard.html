@@ -15,6 +15,9 @@
     {% if report %}
     <div class="card">
         <h2>Firewall Report Summary</h2>
+        {% if filename %}
+            <p class="file-name"><strong>{{ filename }}</strong></p>
+        {% endif %}
         <div class="report-summary">
             <div class="status-badge status-{{ report.status|lower }}">
                 {{ report.status }}
@@ -38,12 +41,26 @@
                 </ul>
             </div>
             {% endif %}
+            
+            {% if report.common_issues %}
+            <div class="common-issues">
+                <h3>Common Issues Found:</h3>
+                <ul>
+                    {% for issue, count in report.common_issues.items() %}
+                    <li>{{ issue }}: {{ count }} occurrence(s)</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
         </div>
     </div>
     {% endif %}
     
     <div class="card">
         <h2>Uploaded Firewall Configuration</h2>
+        {% if filename %}
+            <p class="file-name"><strong>{{ filename }}</strong></p>
+        {% endif %}
         <div class="table-container">
             <table class="data-table">
                 <thead>
@@ -66,17 +83,17 @@
                     {% endif %}
                     {% endfor %}
                     {% endif %}
-                    <tr class="{% if action == 'deny' %} row-deny {% elif action in ['accept', 'allow'] %} row-accept {% endif %}">
+                    <tr class="{% if action in ['DENY', 'deny'] %} row-deny {% elif action in ['ACCEPT', 'ALLOW', 'accept', 'allow'] %} row-accept {% endif %}">
                         {% for cell in row %}
-                        <td>{{ cell }}</td>
+                        <td contenteditable="true">{{ cell }}</td>
                         {% endfor %}
                         <td>
                             {% if is_flagged %}
-                            <span class="flag-icon" title="Security Risk Detected">⚠️</span>
-                            {% elif action == 'DENY' %}
-                            <span class="status-icon deny">🚫</span>
-                            {% elif action in ['ACCEPT', 'ALLOW'] %}
-                            <span class="status-icon accept">✅</span>
+                            <span class="flag-icon" title="Security Risk Detected">WARN</span>
+                            {% elif action in ['DENY', 'deny'] %}
+                            <span class="status-icon deny">NO</span>
+                            {% elif action in ['ACCEPT', 'ALLOW', 'accept', 'allow'] %}
+                            <span class="status-icon accept">OK</span>
                             {% endif %}
                         </td>
                     </tr>
